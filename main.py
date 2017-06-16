@@ -3,8 +3,21 @@ from pprint import pprint
 
 
 def optimize_data(template, data):
-    pieces = string.Formatter().parse(template)
-    raise NotImplementedError("TODO")
+    def review(data):
+        for k in list(data):
+            value = data[k]
+            del data[k] #print ('try to delete ', k)
+            try:
+                template.format(**rootdata)
+            except KeyError: #print ('oops, we need it')
+                data[k]=value
+                if type(data[k]) is dict:
+                    review(data[k])
+            else: # print ('cool. we dont need ', k)
+                pass
+    rootdata=data
+    review(data)
+    return data
 
 
 def main():
@@ -30,4 +43,4 @@ def main():
 
 
 if __name__ == '__main__':
-main()
+    main()
